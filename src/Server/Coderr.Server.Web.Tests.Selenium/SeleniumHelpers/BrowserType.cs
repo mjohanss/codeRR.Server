@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace codeRR.Server.Web.Tests.Selenium.SeleniumHelpers
 {
-    public enum Browser
+    public enum BrowserType
     {
         InternetExplorer,
         Chrome,

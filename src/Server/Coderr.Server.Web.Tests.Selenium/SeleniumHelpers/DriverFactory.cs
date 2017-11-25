@@ -1,31 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 
 namespace codeRR.Server.Web.Tests.Selenium.SeleniumHelpers
 {
-    public class DriverFactory
+    public static class DriverFactory
     {
-        public IWebDriver Create(Browser browser)
+        public static IWebDriver Create(BrowserType browserType)
         {
-            IWebDriver webDriver;
+            IWebDriver driver;
 
-            switch (browser)
+            switch (browserType)
             {
-                case Browser.Chrome:
-                    webDriver = new ChromeDriver();
+                case BrowserType.Chrome:
+                    driver = new ChromeDriver();
+                    break;
+                case BrowserType.InternetExplorer:
+                    driver = new InternetExplorerDriver();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            webDriver.Manage().Window.Maximize();
+            driver.Manage().Window.Maximize();
 
-            return webDriver;
+            return driver;
         }
     }
 }
