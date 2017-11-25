@@ -87,7 +87,6 @@ var codeRR;
                 query.Version = this.filterVersion;
                 CqsClient.query(query)
                     .done(function (response) {
-                    console.log('overview', response);
                     _this.updateChart(response);
                     _this.ctx.render(response);
                 });
@@ -135,7 +134,7 @@ var codeRR;
                 }
                 $("#myChart").html("");
                 this.chartOptions = {
-                    element: "myChart",
+                    element: $("#myChart")[0],
                     data: data,
                     xkey: "date",
                     ykeys: ["Reports", "Incidents"],

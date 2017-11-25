@@ -20,7 +20,7 @@ class IncidentTableViewModel implements Griffin.WebApp.IPagerSubscriber {
         this.ctx = ctx;
     }
 
-    load(applicationId?: number, applicationVersion?: string) {
+    load(applicationId?: number, applicationVersion?: string, callback?: any) {
 
         const query = new codeRR.Core.Incidents.Queries.FindIncidents();
         query.PageNumber = 1;
@@ -38,12 +38,12 @@ class IncidentTableViewModel implements Griffin.WebApp.IPagerSubscriber {
 
                 var itemsElem = this.ctx.viewContainer.querySelector("#incidentTable") as HTMLElement;
                 this.renderTable(itemsElem, response);
-                this.ctx.resolve();
-
                 this.pager = new Griffin.WebApp.Pager(response.PageNumber, 20, response.TotalCount);
                 this.pager.subscribe(this);
                 this.pager.draw(this.ctx.select.one("#pager"));
-
+                if (callback) {
+                    callback();
+                }
             });
 
         this.ctx.handle.click("#btnClosed", e => this.onBtnClosed(e));
@@ -161,7 +161,7 @@ class IncidentTableViewModel implements Griffin.WebApp.IPagerSubscriber {
             },
             ApplicationName: {
                 href(params, dto) {
-                    return `#application/${dto.ApplicationId}/`;
+                    return `#/application/${dto.ApplicationId}/`;
                 },
                 text(value) {
                     return value;

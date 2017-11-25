@@ -14,7 +14,7 @@ var codeRR;
             function OverviewViewModel() {
                 this._sortType = IncidentOrder.Newest;
                 this._sortAscending = false;
-                this._incidentType = "active";
+                this._incidentType = "new";
                 this.pager = new Pager(0, 0, 0);
                 this.pager.subscribe(this);
             }
