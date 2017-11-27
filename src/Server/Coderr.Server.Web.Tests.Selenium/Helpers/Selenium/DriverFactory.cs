@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
 
-namespace codeRR.Server.Web.Tests.Selenium.SeleniumHelpers
+namespace codeRR.Server.Web.Tests.Selenium.Helpers.Selenium
 {
     public static class DriverFactory
     {
@@ -16,9 +16,11 @@ namespace codeRR.Server.Web.Tests.Selenium.SeleniumHelpers
                 case BrowserType.Chrome:
                     driver = new ChromeDriver();
                     break;
+
                 case BrowserType.InternetExplorer:
                     driver = new InternetExplorerDriver();
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -9,7 +9,7 @@ namespace codeRR.Server.Web.Tests.Selenium.Pages
 {
     public class HomePage : BasePage
     {
-        public HomePage(IWebDriver driver) : base(driver)
+        public HomePage(IWebDriver webDriver) : base(webDriver, "/")
         {
         }
     }

@@ -25,6 +25,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using codeRR.Client;
+using codeRR.Server.SqlServer.Tools;
+using log4net;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -33,16 +35,18 @@ namespace codeRR.Server.Web
 {
     public class Startup
     {
+        private readonly ILog _logger = LogManager.GetLogger(typeof(Startup));
+
         private readonly ServiceRunner _serviceRunner;
 
         public Startup()
         {
-            ConnectionStringName = ConfigurationManager.AppSettings["ConnectionStringName"] ?? "Db";
             _serviceRunner = new ServiceRunner();
-            ConfigurationStore = new DatabaseStore(() => DbConnectionFactory.Open(ConnectionStringName, true));
+            ConfigurationStore = new DatabaseStore(() => DbConnectionFactory.Open(ConnectionString, true));
         }
 
-        public static string ConnectionStringName { get; private set; }
+        //public static string ConnectionStringName { get; private set; }
+        public static ConnectionStringSettings ConnectionString => ConnectionStringHelper.GetConnectionString();
 
         public static ConfigurationStore ConfigurationStore { get; private set; }
 

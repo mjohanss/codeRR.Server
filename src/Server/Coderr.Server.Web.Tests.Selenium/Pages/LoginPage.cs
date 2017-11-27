@@ -1,11 +1,14 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using FluentAssertions;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
 
 namespace codeRR.Server.Web.Tests.Selenium.Pages
 {
     public class LoginPage : BasePage
     {
-        public LoginPage(IWebDriver driver) : base(driver)
+        public LoginPage(IWebDriver webDriver) : base(webDriver, "Account/Login")
         {
         }
 
@@ -18,19 +21,24 @@ namespace codeRR.Server.Web.Tests.Selenium.Pages
         [FindsBy(How = How.Id, Using = "Password")]
         public IWebElement PasswordField { get; set; }
 
-        public LoginPage LoginAsAdmin(string baseUrl)
+        public LoginPage LoginAsAdmin()
         {
-            _driver.Navigate().GoToUrl(baseUrl + "/Account/Login");
+            NavigateToPage();
 
             UserNameField.Clear();
-            UserNameField.SendKeys("joma");
+            UserNameField.SendKeys("admin");
 
             PasswordField.Clear();
-            PasswordField.SendKeys("Abc123");
+            PasswordField.SendKeys("admin");
 
             SignInButton.Click();
 
             return this;
+        }
+
+        public void VerifyLoggedIn()
+        {
+            WebDriver.Title.Should().Be("Overview");
         }
     }
 }

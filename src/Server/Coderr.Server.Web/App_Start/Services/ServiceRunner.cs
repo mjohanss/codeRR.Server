@@ -72,7 +72,7 @@ namespace codeRR.Server.Web.Services
                     registrar.RegisterService(x => CreateQueueListener(x, "Feedback", "Messaging"), Lifetime.Singleton);
                     registrar.RegisterService<IMessageQueueProvider>(x =>
                     {
-                        Func<IDbConnection> dbFactory = () => DbConnectionFactory.Open(Startup.ConnectionStringName, true);
+                        Func<IDbConnection> dbFactory = () => DbConnectionFactory.Open(Startup.ConnectionString, true);
                         var serializer = new MessagingSerializer(typeof(AdoNetMessageDto));
                         var provider = new AdoNetMessageQueueProvider(dbFactory, serializer);
                         return provider;

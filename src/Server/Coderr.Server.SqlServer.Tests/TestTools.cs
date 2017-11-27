@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using codeRR.Server.App.Core.Accounts;
 using codeRR.Server.App.Core.Applications;
 using codeRR.Server.App.Core.Users;
@@ -81,6 +82,75 @@ namespace codeRR.Server.SqlServer.Tests
                 con.ChangeDatabase(_dbName);
                 var schemaTool = new SchemaManager(() => con);
                 schemaTool.CreateInitialStructure();
+            }
+        }
+
+        public void CreateDatabase(string name, string path)
+        {
+            var dataFilename = Path.Combine(path, name + ".mdf");
+            var logFilename = Path.Combine(path, name + ".log");
+
+            using (var con = ConnectionFactory.OpenConnection())
+            {
+                var sql = $@"CREATE DATABASE [{name}]
+        ON PRIMARY (
+           NAME={name}_data,
+           FILENAME = '{dataFilename}'
+        )
+        LOG ON (
+            NAME={name}_log,
+            FILENAME = '{logFilename}'
+        )";
+
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void CreateAndInitializeDatabase()
+        {
+            _dbName = $"coderrWebTest{DateTime.Now:yyyyMMddHHmmss}";
+            var databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
+
+            Environment.SetEnvironmentVariable("coderr_ConnectionString", @"Data Source=(LocalDB)\v11.0");
+
+            CreateDatabase(_dbName, databasePath);
+
+            Environment.SetEnvironmentVariable("coderr_ConnectionString", $@"Data Source=(LocalDB)\v11.0;Initial Catalog={_dbName};Integrated Security=True");
+
+            var schemaManager = new SchemaManager(SqlServerTools.OpenConnection);
+            schemaManager.CreateInitialStructure();
+            schemaManager.UpgradeDatabaseSchema();
+
+            InsertSettingsInfoDatabase();
+        }
+
+        public void InsertSettingsInfoDatabase()
+        {
+            using (var con = ConnectionFactory.OpenConnection())
+            {
+                var sql = @"INSERT INTO Settings (Section, Name, Value) VALUES
+('BaseConfig', 'AllowRegistrations', 'False'), 
+('BaseConfig', 'BaseUrl', 'http://localhost:50473/coderr/'), 
+('BaseConfig', 'SenderEmail', 'webtests@coderr.com'), 
+('BaseConfig', 'SupportEmail', 'webtests@coderr.com'), 
+('ErrorTracking', 'ActivateTracking', 'True'), 
+('ErrorTracking', 'ContactEmail', 'webtests@coderr.com'), 
+('ErrorTracking', 'InstallationId', '068e0fc19e90460c86526693488289ee'), 
+('SmtpSettings', 'AccountName', ''), 
+('SmtpSettings', 'AccountPassword', ''), 
+('SmtpSettings', 'SmtpHost', 'localhost'), 
+('SmtpSettings', 'PortNumber', '25'), 
+('SmtpSettings', 'UseSSL', 'False')
+";
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 

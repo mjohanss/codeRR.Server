@@ -93,7 +93,7 @@ namespace codeRR.Server.Web.Areas.Admin.Controllers
         {
             try
             {
-                DbConnectionFactory.Open(Startup.ConnectionStringName, true);
+                DbConnectionFactory.Open(Startup.ConnectionString, true);
             }
             catch
             {

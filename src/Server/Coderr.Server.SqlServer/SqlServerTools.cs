@@ -4,7 +4,9 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using codeRR.Server.Infrastructure;
+using codeRR.Server.SqlServer.Tools;
 
 namespace codeRR.Server.SqlServer
 {
@@ -26,8 +28,11 @@ namespace codeRR.Server.SqlServer
         {
             get
             {
-                return ConfigurationManager.ConnectionStrings["Db"] != null &&
-                       !string.IsNullOrEmpty(ConfigurationManager.ConnectionStrings["Db"].ConnectionString);
+                //return ConfigurationManager.ConnectionStrings["Db"] != null &&
+                //       !string.IsNullOrEmpty(ConfigurationManager.ConnectionStrings["Db"].ConnectionStringHelper);
+                var connectionString = ConnectionStringHelper.GetConnectionString();
+                return connectionString != null &&
+                       !string.IsNullOrEmpty(connectionString.ConnectionString);
             }
         }
 
@@ -109,7 +114,8 @@ namespace codeRR.Server.SqlServer
 
         public static IDbConnection OpenConnection()
         {
-            var conStr = ConfigurationManager.ConnectionStrings["Db"];
+            //var conStr = ConfigurationManager.ConnectionStrings["Db"];
+            var conStr = ConnectionStringHelper.GetConnectionString();
             var provider = DbProviderFactories.GetFactory(conStr.ProviderName);
             var connection = provider.CreateConnection();
             connection.ConnectionString = conStr.ConnectionString;

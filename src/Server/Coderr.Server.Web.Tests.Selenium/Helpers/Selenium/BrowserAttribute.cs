@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using OpenQA.Selenium;
 using Xunit.Sdk;
 
-namespace codeRR.Server.Web.Tests.Selenium.SeleniumHelpers
+namespace codeRR.Server.Web.Tests.Selenium.Helpers.Selenium
 {
     public class BrowserAttribute : DataAttribute
     {
