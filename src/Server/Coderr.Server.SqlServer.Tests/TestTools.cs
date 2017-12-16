@@ -116,11 +116,11 @@ namespace codeRR.Server.SqlServer.Tests
             _dbName = $"coderrWebTest{DateTime.Now:yyyyMMddHHmmss}";
             var databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 
-            Environment.SetEnvironmentVariable("coderr_ConnectionString", @"Data Source=(LocalDB)\v11.0");
+            Environment.SetEnvironmentVariable("coderr_ConnectionString", @"Data Source=(LocalDB)\MSSQLLocalDB");
 
             CreateDatabase(_dbName, databasePath);
 
-            Environment.SetEnvironmentVariable("coderr_ConnectionString", $@"Data Source=(LocalDB)\v11.0;Initial Catalog={_dbName};Integrated Security=True");
+            Environment.SetEnvironmentVariable("coderr_ConnectionString", $@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog={_dbName};Integrated Security=True");
 
             var schemaManager = new SchemaManager(SqlServerTools.OpenConnection);
             schemaManager.CreateInitialStructure();

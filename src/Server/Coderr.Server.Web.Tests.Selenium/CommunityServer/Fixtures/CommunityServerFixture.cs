@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using codeRR.Server.SqlServer.Tests;
 using codeRR.Server.Web.Tests.Selenium.Helpers;
 using codeRR.Server.Web.Tests.Selenium.Helpers.Selenium;
 using OpenQA.Selenium;
 
-namespace codeRR.Server.Web.Tests.Selenium.Fixtures
+namespace codeRR.Server.Web.Tests.Selenium.CommunityServer.Fixtures
 {
-    public class SeleniumFixture : IDisposable
+    public class CommunityServerFixture : IDisposable
     {
         private readonly TestTools _testTools;
 
         public IWebDriver WebDriver { get; }
         public IisExpress IisExpress { get; }
 
-        public SeleniumFixture()
+        public CommunityServerFixture()
         {
             _testTools = new TestTools {CanDropDatabase = false};
             _testTools.CreateAndInitializeDatabase();

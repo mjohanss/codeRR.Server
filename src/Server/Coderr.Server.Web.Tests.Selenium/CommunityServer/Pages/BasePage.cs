@@ -1,21 +1,23 @@
 ﻿using System;
-using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
 
-namespace codeRR.Server.Web.Tests.Selenium.Pages
+namespace codeRR.Server.Web.Tests.Selenium.CommunityServer.Pages
 {
     public class BasePage
     {
         protected IWebDriver WebDriver;
+        protected WebDriverWait Wait;
         protected string BaseUrl { get; }
         protected string Url { get; }
 
         public BasePage(IWebDriver webDriver, string url)
         {
             WebDriver = webDriver;
+
+            Wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(3));
 
             BaseUrl = "http://localhost:50473/coderr/";
 
@@ -28,8 +30,7 @@ namespace codeRR.Server.Web.Tests.Selenium.Pages
         {
             WebDriver.Navigate().GoToUrl(Url);
 
-            var wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(2000));
-            wait.Until(ExpectedConditions.UrlMatches(Url));
+            Wait.Until(ExpectedConditions.UrlMatches(Url));
 
             Assert.Equal(Url, WebDriver.Url);
         }
