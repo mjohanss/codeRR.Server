@@ -6,13 +6,10 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
 {
     [Collection("LiveServerCollection")]
     [Trait("Category", "Integration")]
-    public class RegisterPageTests : TestBase
+    public class RegisterPageTests : LiveServerTestBase
     {
-        private readonly LiveServerFixture _fixture;
-
-        public RegisterPageTests(LiveServerFixture fixture) : base(fixture.WebDriver)
+        public RegisterPageTests(LiveServerFixture fixture) : base(fixture)
         {
-            _fixture = fixture;
         }
 
         [Fact]
@@ -20,7 +17,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new RegisterPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new RegisterPage(Fixture)
                     .RegisterWithNoEMailSpecified();
 
                 sut.VerifyRequireEMail();
@@ -32,7 +29,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new RegisterPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new RegisterPage(Fixture)
                     .RegisterWithNoPasswordSpecified();
 
                 sut.VerifyRequirePassword();
@@ -44,7 +41,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new RegisterPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new RegisterPage(Fixture)
                     .RegisterWithPasswordsNotMatching();
 
                 sut.VerifyPasswordsNotMatchingPasswords();
@@ -56,7 +53,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new RegisterPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new RegisterPage(Fixture)
                     .RegisterUserThatAlreadyExists();
 
                 sut.VerifyRegisterUserThatAlreadyExists();
@@ -68,7 +65,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new RegisterPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new RegisterPage(Fixture)
                     .RegisterUser();
 
                 sut.VerifyIsCurrentPage();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
@@ -11,16 +12,23 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 {
     public class BasePage
     {
+        protected readonly LiveServerFixture Fixture;
         protected IWebDriver WebDriver;
         protected WebDriverWait Wait;
         protected string BaseUrl { get; }
         protected string Url { get; }
+        protected string UserName { get; }
+        protected string Password { get; }
 
-        public BasePage(IWebDriver webDriver, string url)
+        public BasePage(LiveServerFixture fixture, string url)
         {
-            WebDriver = webDriver;
+            Fixture = fixture;
+            WebDriver = fixture.WebDriver;
 
-            Wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
+            Wait = new WebDriverWait(fixture.WebDriver, TimeSpan.FromSeconds(10));
+
+            UserName = fixture.UserName;
+            Password = fixture.Password;
 
             BaseUrl = ConfigurationManager.AppSettings["LiveServerUrl"];
             if (BaseUrl.EndsWith("/") == false)
@@ -38,6 +46,13 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             Wait.Until(ExpectedConditions.UrlMatches(Url));
 
             Assert.Equal(Url, WebDriver.Url);
+        }
+
+        public void Login()
+        {
+            var page = new LoginPage(Fixture)
+                .LoginWithValidCredentials();
+            page.VerifyIsCurrentPage();
         }
 
         public void TakeScreenshot()

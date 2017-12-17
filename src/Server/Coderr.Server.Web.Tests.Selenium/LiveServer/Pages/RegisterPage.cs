@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures;
+using log4net;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
@@ -9,17 +10,12 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(RegisterPage));
 
-        private readonly string _userName;
         private readonly string _userNameRegister;
-        private readonly string _password;
         private const string Title = "Register - codeRR lobby";
 
-        public RegisterPage(IWebDriver webDriver, string userName, string password) : base(webDriver, "Account/Register")
+        public RegisterPage(LiveServerFixture fixture) : base(fixture, "Account/Register")
         {
-            _userName = userName;
-            _password = password;
-
-            _userNameRegister = userName.Replace("testuser.", "testuser2.");
+            _userNameRegister = UserName.Replace("testuser.", "testuser2.");
         }
 
         [FindsBy(How = How.ClassName, Using = "btn-primary")]
@@ -36,24 +32,24 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 
         public WelcomePage RegisterUserStartup()
         {
-            _logger.Info($"Registering user '{_userName}'");
+            _logger.Info($"Registering user '{UserName}'");
 
             DeleteCookies();
 
             NavigateToPage();
 
             EMailField.Clear();
-            EMailField.SendKeys(_userName);
+            EMailField.SendKeys(UserName);
 
             PasswordField.Clear();
-            PasswordField.SendKeys(_password);
+            PasswordField.SendKeys(Password);
 
             ConfirmPasswordField.Clear();
-            ConfirmPasswordField.SendKeys(_password);
+            ConfirmPasswordField.SendKeys(Password);
 
             RegisterButton.Click();
 
-            return new WelcomePage(WebDriver, _userName, _password);
+            return new WelcomePage(Fixture);
         }
 
         public WelcomePage RegisterUser()
@@ -66,14 +62,14 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             EMailField.SendKeys(_userNameRegister);
 
             PasswordField.Clear();
-            PasswordField.SendKeys(_password);
+            PasswordField.SendKeys(Password);
 
             ConfirmPasswordField.Clear();
-            ConfirmPasswordField.SendKeys(_password);
+            ConfirmPasswordField.SendKeys(Password);
 
             RegisterButton.Click();
 
-            return new WelcomePage(WebDriver, _userName, _password);
+            return new WelcomePage(Fixture);
         }
 
         public RegisterPage RegisterUserThatAlreadyExists()
@@ -83,13 +79,13 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             NavigateToPage();
 
             EMailField.Clear();
-            EMailField.SendKeys(_userName);
+            EMailField.SendKeys(UserName);
 
             PasswordField.Clear();
-            PasswordField.SendKeys(_password);
+            PasswordField.SendKeys(Password);
 
             ConfirmPasswordField.Clear();
-            ConfirmPasswordField.SendKeys(_password);
+            ConfirmPasswordField.SendKeys(Password);
 
             RegisterButton.Click();
 
@@ -114,7 +110,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             NavigateToPage();
 
             EMailField.Clear();
-            EMailField.SendKeys(_userName);
+            EMailField.SendKeys(UserName);
 
             PasswordField.Clear();
 
@@ -128,13 +124,13 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             NavigateToPage();
 
             EMailField.Clear();
-            EMailField.SendKeys(_userName);
+            EMailField.SendKeys(UserName);
 
             PasswordField.Clear();
-            PasswordField.SendKeys(_password);
+            PasswordField.SendKeys(Password);
 
             ConfirmPasswordField.Clear();
-            ConfirmPasswordField.SendKeys(_password + "11");
+            ConfirmPasswordField.SendKeys(Password + "11");
 
             RegisterButton.Click();
 

@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures;
+using log4net;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
@@ -10,15 +11,10 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(WelcomePage));
 
-        private readonly string _userName;
-        private readonly string _password;
-
         private const string Title = "Welcome - codeRR";
 
-        public WelcomePage(IWebDriver webDriver, string userName, string password) : base(webDriver, "welcome")
+        public WelcomePage(LiveServerFixture fixture) : base(fixture, "welcome")
         {
-            _userName = userName;
-            _password = password;
         }
 
         [FindsBy(How = How.XPath, Using = "//div[@data-href='/organization/create']")]
@@ -27,14 +23,14 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
         [Fact]
         public OrganizationCreatePage CreateOrganization()
         {
-            var welcomePage = new LoginPage(WebDriver, _userName, _password)
+            var welcomePage = new LoginPage(Fixture)
                 .LoginWithValidCredentials();
 
             welcomePage.VerifyIsCurrentPage();
 
             welcomePage.CreateButton.Click();
 
-            return new OrganizationCreatePage(WebDriver, _userName, _password);
+            return new OrganizationCreatePage(Fixture);
         }
 
         [Fact]

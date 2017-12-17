@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures;
 using log4net;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
@@ -10,9 +11,8 @@ namespace codeRR.Server.Web.Tests.Selenium
     [TestCaseOrderer("codeRR.Server.Web.Tests.Selenium.Helpers.xUnit.TestCaseOrderer", "codeRR.Server.Web.Tests.Selenium")]
     public abstract class TestBase
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(TestBase));
-
         private readonly IWebDriver _webDriver;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(TestBase));
 
         protected TestBase(IWebDriver webDriver)
         {

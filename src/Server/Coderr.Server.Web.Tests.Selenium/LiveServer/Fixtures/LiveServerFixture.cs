@@ -25,7 +25,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures
 
             Debug.WriteLine($"Registering user '{UserName}'");
 
-            var page = new RegisterPage(WebDriver, UserName, Password)
+            var page = new RegisterPage(this)
                 .RegisterUserStartup();
 
             page.VerifyIsCurrentPage();

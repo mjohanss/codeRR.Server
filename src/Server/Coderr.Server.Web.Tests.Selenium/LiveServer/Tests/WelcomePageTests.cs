@@ -6,13 +6,10 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
 {
     [Collection("LiveServerCollection")]
     [Trait("Category", "Integration")]
-    public class WelcomePageTests : TestBase
+    public class WelcomePageTests : LiveServerTestBase
     {
-        private readonly LiveServerFixture _fixture;
-
-        public WelcomePageTests(LiveServerFixture fixture) : base(fixture.WebDriver)
+        public WelcomePageTests(LiveServerFixture fixture) : base(fixture)
         {
-            _fixture = fixture;
         }
 
         [Fact]
@@ -20,7 +17,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new WelcomePage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new WelcomePage(Fixture)
                         .CreateOrganization();
 
                 sut.VerifyIsCurrentPage();

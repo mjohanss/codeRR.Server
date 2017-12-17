@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures;
+using FluentAssertions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
@@ -7,14 +8,10 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 {
     public class LoginPage : BasePage
     {
-        private readonly string _userName;
-        private readonly string _password;
         private const string Title = "Log in - codeRR lobby";
 
-        public LoginPage(IWebDriver webDriver, string userName, string password) : base(webDriver, "Account/Login")
+        public LoginPage(LiveServerFixture fixture) : base(fixture, "Account/Login")
         {
-            _userName = userName;
-            _password = password;
         }
 
         [FindsBy(How = How.ClassName, Using = "btn-primary")]
@@ -31,14 +28,14 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             NavigateToPage();
 
             UserNameField.Clear();
-            UserNameField.SendKeys(_userName);
+            UserNameField.SendKeys(UserName);
 
             PasswordField.Clear();
-            PasswordField.SendKeys(_password);
+            PasswordField.SendKeys(Password);
 
             LogInButton.Click();
 
-            return new WelcomePage(WebDriver, _userName, _password);
+            return new WelcomePage(Fixture);
         }
 
         public LoginPage LoginWithNoUserNameSpecified()
@@ -48,7 +45,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             UserNameField.Clear();
 
             PasswordField.Clear();
-            PasswordField.SendKeys(_password);
+            PasswordField.SendKeys(Password);
 
             LogInButton.Click();
 
@@ -60,7 +57,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             NavigateToPage();
 
             UserNameField.Clear();
-            UserNameField.SendKeys(_userName);
+            UserNameField.SendKeys(UserName);
 
             PasswordField.Clear();
 

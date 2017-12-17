@@ -7,13 +7,10 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
 {
     [Collection("LiveServerCollection")]
     [Trait("Category", "Integration")]
-    public class LoginPageTests : TestBase
+    public class LoginPageTests : LiveServerTestBase
     {
-        private readonly LiveServerFixture _fixture;
-
-        public LoginPageTests(LiveServerFixture fixture) : base(fixture.WebDriver)
+        public LoginPageTests(LiveServerFixture fixture) : base(fixture)
         {
-            _fixture = fixture;
         }
 
         [Fact]
@@ -22,7 +19,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new LoginPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new LoginPage(Fixture)
                     .LoginWithNoUserNameSpecified();
 
                 sut.VerifyIsCurrentPage();
@@ -35,7 +32,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new LoginPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new LoginPage(Fixture)
                     .LoginWithNoPasswordSpecified();
 
                 sut.VerifyIsCurrentPage();
@@ -48,7 +45,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             UITest(() =>
             {
-                var sut = new LoginPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
+                var sut = new LoginPage(Fixture)
                     .LoginWithValidCredentials();
 
                 sut.VerifyIsCurrentPage();
