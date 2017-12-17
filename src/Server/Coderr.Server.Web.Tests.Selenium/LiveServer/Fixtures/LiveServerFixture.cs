@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
+using System.IO;
 using codeRR.Server.Web.Tests.Selenium.Helpers.Selenium;
 using codeRR.Server.Web.Tests.Selenium.LiveServer.Pages;
+using log4net.Config;
 using OpenQA.Selenium;
 
 namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures
@@ -17,15 +18,17 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures
 
         public LiveServerFixture()
         {
+            XmlConfigurator.ConfigureAndWatch(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config")));
+
             WebDriver = DriverFactory.Create(BrowserType.Chrome);
             UserName = $"testuser.{Guid.NewGuid():N}@coderrapp.com";
 
             Debug.WriteLine($"Registering user '{UserName}'");
 
-            var page = new RegisterPage(WebDriver, UserName, Password);
-            page.RegisterUserStartup();
+            var page = new RegisterPage(WebDriver, UserName, Password)
+                .RegisterUserStartup();
 
-            page.VerifyRegisterUser();
+            page.VerifyIsCurrentPage();
         }
 
         public void Dispose()

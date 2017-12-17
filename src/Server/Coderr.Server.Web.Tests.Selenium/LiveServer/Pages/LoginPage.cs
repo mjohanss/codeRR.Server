@@ -26,7 +26,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
         [FindsBy(How = How.Id, Using = "Password")]
         public IWebElement PasswordField { get; set; }
 
-        public LoginPage LoginWithValidCredentials()
+        public WelcomePage LoginWithValidCredentials()
         {
             NavigateToPage();
 
@@ -38,7 +38,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 
             LogInButton.Click();
 
-            return this;
+            return new WelcomePage(WebDriver, _userName, _password);
         }
 
         public LoginPage LoginWithNoUserNameSpecified()

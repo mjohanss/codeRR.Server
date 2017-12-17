@@ -51,8 +51,6 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
                 var sut = new LoginPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
                     .LoginWithValidCredentials();
 
-                sut.TakeScreenshot();
-
                 sut.VerifyIsCurrentPage();
             });
         }

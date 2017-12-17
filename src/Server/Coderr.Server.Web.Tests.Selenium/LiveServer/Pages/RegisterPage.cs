@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using log4net;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
@@ -6,6 +7,8 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 {
     public class RegisterPage : BasePage
     {
+        private readonly ILog _logger = LogManager.GetLogger(typeof(RegisterPage));
+
         private readonly string _userName;
         private readonly string _userNameRegister;
         private readonly string _password;
@@ -31,8 +34,10 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
         [FindsBy(How = How.Id, Using = "ConfirmPassword")]
         public IWebElement ConfirmPasswordField { get; set; }
 
-        public RegisterPage RegisterUserStartup()
+        public WelcomePage RegisterUserStartup()
         {
+            _logger.Info($"Registering user '{_userName}'");
+
             DeleteCookies();
 
             NavigateToPage();
@@ -48,10 +53,10 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 
             RegisterButton.Click();
 
-            return this;
+            return new WelcomePage(WebDriver, _userName, _password);
         }
 
-        public RegisterPage RegisterUser()
+        public WelcomePage RegisterUser()
         {
             DeleteCookies();
 
@@ -68,7 +73,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 
             RegisterButton.Click();
 
-            return this;
+            return new WelcomePage(WebDriver, _userName, _password);
         }
 
         public RegisterPage RegisterUserThatAlreadyExists()
@@ -158,7 +163,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 
         public void VerifyRegisterUserThatAlreadyExists()
         {
-            Wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[@data-valmsg-summary='true']")));
+            Wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@data-valmsg-summary='true']")));
         }
     }
 }

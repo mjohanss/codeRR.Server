@@ -71,7 +71,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
                 var sut = new RegisterPage(_fixture.WebDriver, _fixture.UserName, _fixture.Password)
                     .RegisterUser();
 
-                sut.VerifyRegisterUser();
+                sut.VerifyIsCurrentPage();
             });
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
@@ -21,7 +22,9 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 
             Wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
 
-            BaseUrl = "https://live-test-lobby.azurewebsites.net/";
+            BaseUrl = ConfigurationManager.AppSettings["LiveServerUrl"];
+            if (BaseUrl.EndsWith("/") == false)
+                BaseUrl += "/";
 
             Url = new Uri(new Uri(BaseUrl), url).ToString();
 
