@@ -1,16 +1,12 @@
 ﻿using codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures;
-using FluentAssertions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
 
 namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
 {
     public class LoginPage : BasePage
     {
-        private const string Title = "Log in - codeRR lobby";
-
-        public LoginPage(LiveServerFixture fixture) : base(fixture, "Account/Login")
+        public LoginPage(LiveServerFixture fixture) : base(fixture, "Account/Login", "Log in - codeRR lobby")
         {
         }
 
@@ -64,13 +60,6 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             LogInButton.Click();
 
             return this;
-        }
-
-        public void VerifyIsCurrentPage()
-        {
-            Wait.Until(ExpectedConditions.TitleIs(Title));
-
-            WebDriver.Title.Should().Be(Title);
         }
     }
 }

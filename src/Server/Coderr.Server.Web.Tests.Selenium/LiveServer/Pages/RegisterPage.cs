@@ -11,9 +11,8 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
         private readonly ILog _logger = LogManager.GetLogger(typeof(RegisterPage));
 
         private readonly string _userNameRegister;
-        private const string Title = "Register - codeRR lobby";
 
-        public RegisterPage(LiveServerFixture fixture) : base(fixture, "Account/Register")
+        public RegisterPage(LiveServerFixture fixture) : base(fixture, "Account/Register", "Register - codeRR lobby")
         {
             _userNameRegister = UserName.Replace("testuser.", "testuser2.");
         }

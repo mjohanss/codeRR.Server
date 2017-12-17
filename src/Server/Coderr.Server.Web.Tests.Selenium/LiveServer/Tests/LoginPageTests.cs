@@ -22,7 +22,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
                 var sut = new LoginPage(Fixture)
                     .LoginWithNoUserNameSpecified();
 
-                sut.VerifyIsCurrentPage();
+                sut.VerifyPageLoaded();
             });
         }
 
@@ -35,7 +35,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
                 var sut = new LoginPage(Fixture)
                     .LoginWithNoPasswordSpecified();
 
-                sut.VerifyIsCurrentPage();
+                sut.VerifyPageLoaded();
             });
         }
 
@@ -48,7 +48,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
                 var sut = new LoginPage(Fixture)
                     .LoginWithValidCredentials();
 
-                sut.VerifyIsCurrentPage();
+                sut.VerifyPageLoaded();
             });
         }
     }

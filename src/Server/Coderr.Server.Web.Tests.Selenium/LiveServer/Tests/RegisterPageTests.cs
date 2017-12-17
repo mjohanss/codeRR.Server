@@ -68,7 +68,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
                 var sut = new RegisterPage(Fixture)
                     .RegisterUser();
 
-                sut.VerifyIsCurrentPage();
+                sut.VerifyPageLoaded();
             });
         }
     }

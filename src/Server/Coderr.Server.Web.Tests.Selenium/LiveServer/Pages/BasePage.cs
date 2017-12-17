@@ -19,11 +19,13 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
         protected string Url { get; }
         protected string UserName { get; }
         protected string Password { get; }
+        protected string Title { get; }
 
-        public BasePage(LiveServerFixture fixture, string url)
+        public BasePage(LiveServerFixture fixture, string url, string title)
         {
             Fixture = fixture;
             WebDriver = fixture.WebDriver;
+            Title = title;
 
             Wait = new WebDriverWait(fixture.WebDriver, TimeSpan.FromSeconds(10));
 
@@ -48,13 +50,6 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             Assert.Equal(Url, WebDriver.Url);
         }
 
-        public void Login()
-        {
-            var page = new LoginPage(Fixture)
-                .LoginWithValidCredentials();
-            page.VerifyIsCurrentPage();
-        }
-
         public void TakeScreenshot()
         {
             var screenshot = WebDriver.TakeScreenshot();
@@ -62,6 +57,11 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Pages
             var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"screenshot.{this.GetType().Name}.{DateTime.Now:yyyMMdd.HHmmss}.png");
 
             screenshot.SaveAsFile(fileName, ScreenshotImageFormat.Png);
+        }
+
+        public virtual void VerifyPageLoaded()
+        {
+            Wait.Until(ExpectedConditions.TitleIs(Title));
         }
 
         public void DeleteCookies()

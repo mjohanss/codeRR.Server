@@ -28,7 +28,7 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures
             var page = new RegisterPage(this)
                 .RegisterUserStartup();
 
-            page.VerifyIsCurrentPage();
+            page.VerifyPageLoaded();
         }
 
         public void Dispose()

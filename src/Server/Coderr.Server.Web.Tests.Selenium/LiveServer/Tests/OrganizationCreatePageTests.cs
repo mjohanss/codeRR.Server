@@ -6,14 +6,14 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
 {
     [Collection("LiveServerCollection")]
     [Trait("Category", "Integration")]
-    public class WelcomePageTests : LiveServerTestBase
+    public class OrganizationCreatePageTests : LiveServerTestBase
     {
-        public WelcomePageTests(LiveServerFixture fixture) : base(fixture)
+        public OrganizationCreatePageTests(LiveServerFixture fixture) : base(fixture)
         {
         }
 
         [Fact]
-        public void Should_be_able_to_click_create_organization()
+        public void Should_be_able_to_create_new_organization()
         {
             UITest(() =>
             {
@@ -23,6 +23,12 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
                         .CreateOrganization();
 
                 sut.VerifyPageLoaded();
+
+                var result = sut.CreateOrganization("DummyOrganization");
+
+                result.VerifyPageLoaded();
+
+                Logout();
             });
         }
     }
