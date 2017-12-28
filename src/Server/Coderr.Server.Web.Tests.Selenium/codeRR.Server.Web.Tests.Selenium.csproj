@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="canopy" Version="1.6.1" />
+    <PackageReference Include="Coderr.Client" Version="1.0.14" />
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Selenium.Support" Version="3.8.0" />
@@ -27,10 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Coderr.Server.Api.Client\codeRR.Server.Api.Client.csproj" />
     <ProjectReference Include="..\Coderr.Server.SqlServer.Tests\codeRR.Server.SqlServer.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Coderr.Client">
+      <HintPath>..\packages\Coderr.Client.1.0.14\lib\net452\Coderr.Client.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
   </ItemGroup>
 

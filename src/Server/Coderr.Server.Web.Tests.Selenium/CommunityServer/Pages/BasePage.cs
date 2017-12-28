@@ -11,13 +11,13 @@ namespace codeRR.Server.Web.Tests.Selenium.CommunityServer.Pages
         protected IWebDriver WebDriver;
         protected WebDriverWait Wait;
         protected string BaseUrl { get; }
-        protected string Url { get; }
+        protected string Url { get; set; }
 
         public BasePage(IWebDriver webDriver, string url)
         {
             WebDriver = webDriver;
 
-            Wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(3));
+            Wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
 
             BaseUrl = "http://localhost:50473/coderr/";
 

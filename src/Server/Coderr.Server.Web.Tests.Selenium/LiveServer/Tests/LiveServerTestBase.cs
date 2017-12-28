@@ -1,5 +1,6 @@
 ﻿using codeRR.Server.Web.Tests.Selenium.LiveServer.Fixtures;
 using codeRR.Server.Web.Tests.Selenium.LiveServer.Pages;
+using Xunit;
 
 namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
 {
@@ -16,6 +17,9 @@ namespace codeRR.Server.Web.Tests.Selenium.LiveServer.Tests
         {
             var page = new LoginPage(Fixture)
                 .LoginWithValidCredentials();
+
+            Assert.IsType<WelcomePage>(page);
+
             page.VerifyPageLoaded();
 
             return page;

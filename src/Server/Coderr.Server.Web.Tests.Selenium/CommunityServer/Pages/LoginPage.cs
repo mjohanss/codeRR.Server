@@ -7,8 +7,8 @@ namespace codeRR.Server.Web.Tests.Selenium.CommunityServer.Pages
 {
     public class LoginPage : BasePage
     {
-        private const string UserName = "admin";
-        private const string Password = "admin";
+        private const string UserName = "arne";
+        private const string Password = "123456";
 
         public LoginPage(IWebDriver webDriver) : base(webDriver, "Account/Login")
         {
@@ -23,7 +23,7 @@ namespace codeRR.Server.Web.Tests.Selenium.CommunityServer.Pages
         [FindsBy(How = How.Id, Using = "Password")]
         public IWebElement PasswordField { get; set; }
 
-        public HomePage LoginAsAdmin()
+        public HomePage LoginWithValidCredentials()
         {
             NavigateToPage();
 
@@ -66,11 +66,24 @@ namespace codeRR.Server.Web.Tests.Selenium.CommunityServer.Pages
             return this;
         }
 
+        public LoginPage LoginWithWrongPasswordSpecified()
+        {
+            NavigateToPage();
+
+            UserNameField.Clear();
+            UserNameField.SendKeys(UserName);
+
+            PasswordField.Clear();
+            PasswordField.SendKeys(Password.Substring(1));
+
+            SignInButton.Click();
+
+            return this;
+        }
+
         public void VerifyIsCurrentPage()
         {
             Wait.Until(ExpectedConditions.TitleIs("Login - codeRR"));
-
-            WebDriver.Title.Should().Be("Login - codeRR");
         }
     }
 }

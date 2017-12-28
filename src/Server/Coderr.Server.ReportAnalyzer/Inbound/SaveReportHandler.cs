@@ -42,6 +42,10 @@ namespace codeRR.Server.ReportAnalyzer.Inbound
             _queue = queue ?? throw new ArgumentNullException(nameof(queue));
             var config= configStore.Load<ReportConfig>();
             _maxSizeForJsonErrorReport = config?.MaxReportJsonSize ?? 1000000;
+
+            // TODO: Temporary fix
+            if (_maxSizeForJsonErrorReport == 0)
+                _maxSizeForJsonErrorReport = 1000000;
         }
 
         public void AddFilter(Func<NewReportDTO, bool> filter)

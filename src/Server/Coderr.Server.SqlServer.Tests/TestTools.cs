@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using codeRR.Server.Api.Core.Applications;
 using codeRR.Server.App.Core.Accounts;
 using codeRR.Server.App.Core.Applications;
 using codeRR.Server.App.Core.Users;
@@ -136,10 +137,10 @@ namespace codeRR.Server.SqlServer.Tests
                 var sql = @"INSERT INTO Settings (Section, Name, Value) VALUES
 ('BaseConfig', 'AllowRegistrations', 'False'), 
 ('BaseConfig', 'BaseUrl', 'http://localhost:50473/coderr/'), 
-('BaseConfig', 'SenderEmail', 'webtests@coderr.com'), 
-('BaseConfig', 'SupportEmail', 'webtests@coderr.com'), 
+('BaseConfig', 'SenderEmail', 'webtests@coderrapp.com'), 
+('BaseConfig', 'SupportEmail', 'webtests@coderrapp.com'), 
 ('ErrorTracking', 'ActivateTracking', 'True'), 
-('ErrorTracking', 'ContactEmail', 'webtests@coderr.com'), 
+('ErrorTracking', 'ContactEmail', 'webtests@coderrapp.com'), 
 ('ErrorTracking', 'InstallationId', '068e0fc19e90460c86526693488289ee'), 
 ('SmtpSettings', 'AccountName', ''), 
 ('SmtpSettings', 'AccountPassword', ''), 
@@ -169,6 +170,28 @@ namespace codeRR.Server.SqlServer.Tests
             }
         }
 
+        public Application GetApplication(int id)
+        {
+            using (var uow = CreateUnitOfWork())
+            {
+                var repository = new ApplicationRepository(uow);
+                return repository.GetByIdAsync(id).GetAwaiter().GetResult();
+            }
+        }
+
+        public void ActivateAccount(int accountId)
+        {
+            using (var uow = CreateUnitOfWork())
+            {
+                var accountRepository = new AccountRepository(uow);
+                var account = accountRepository.GetByIdAsync(accountId).GetAwaiter().GetResult();
+                account.Activate();
+                accountRepository.UpdateAsync(account).GetAwaiter().GetResult();
+
+                uow.SaveChanges();
+            }
+        }
+
         public IDbConnection OpenConnection()
         {
             var connection = ConnectionFactory.OpenConnection();
@@ -192,7 +215,7 @@ namespace codeRR.Server.SqlServer.Tests
             userRepos.CreateAsync(user).GetAwaiter().GetResult();
 
             var appRepos = new ApplicationRepository(uow);
-            var app = new Application(account.Id, "MinApp");
+            var app = new Application(account.Id, "MyTestApp") {ApplicationType = TypeOfApplication.DesktopApplication};
             appRepos.CreateAsync(app).GetAwaiter().GetResult();
             var member = new ApplicationTeamMember(app.Id, account.Id, "Admin");
             appRepos.CreateAsync(member).GetAwaiter().GetResult();
